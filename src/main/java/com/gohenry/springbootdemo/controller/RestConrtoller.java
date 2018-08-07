@@ -17,8 +17,7 @@ public class RestConrtoller {
 	
 	@RequestMapping(value = "/parents", method = RequestMethod.POST)
 	public InsertParentResponse CreateParent(InsertParentRequest insertParentRequest){
-		parentService.createParent(insertParentRequest);
-		return null;
+		 return parentService.createParent(insertParentRequest);
 		
 	}
 	
