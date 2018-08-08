@@ -1,22 +1,8 @@
-package com.gohenry.springbootdemo.entity;
+package com.gohenry.springbootdemo.response;
 
-import java.util.List;
+public class InsertChildResponse {
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "parent")
-public class Parent {
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	private String id;
 	
 	private String title;
 	
@@ -31,15 +17,12 @@ public class Parent {
 	private String gender;
 	
 	private String secondName;
-	
-	@OneToMany(cascade =CascadeType.PERSIST)
-	private List<Child> childern;
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -97,14 +80,6 @@ public class Parent {
 
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
-	}
-
-	public List<Child> getChildern() {
-		return childern;
-	}
-
-	public void setChildern(List<Child> childern) {
-		this.childern = childern;
 	}
 	
 }

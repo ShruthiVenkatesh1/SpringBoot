@@ -22,7 +22,7 @@ public class InsertParentResponse {
 
 	private String secondName;
 
-	private List<InsertChildRequest> children;
+	private List<InsertChildResponse> children;
 
 	public String getId() {
 		return id;
@@ -88,11 +88,11 @@ public class InsertParentResponse {
 		this.secondName = secondName;
 	}
 
-	public List<InsertChildRequest> getChildren() {
+	public List<InsertChildResponse> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<InsertChildRequest> children) {
+	public void setChildren(List<InsertChildResponse> children) {
 		this.children = children;
 	}
 	
