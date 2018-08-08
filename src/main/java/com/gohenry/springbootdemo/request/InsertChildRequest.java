@@ -1,8 +1,6 @@
 package com.gohenry.springbootdemo.request;
 
-import java.util.List;
-
-public class InsertParentRequest {
+public class InsertChildRequest {
 
 	private String title;
 	
@@ -17,8 +15,6 @@ public class InsertParentRequest {
 	private String gender;
 	
 	private String secondName;
-	
-	private List<InsertChildRequest> children;
 
 	public String getTitle() {
 		return title;
@@ -75,13 +71,6 @@ public class InsertParentRequest {
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
-
-	public List<InsertChildRequest> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<InsertChildRequest> children) {
-		this.children = children;
-	}
+	
 	
 }

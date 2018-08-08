@@ -15,14 +15,38 @@ public class ParentService {
 	private ParentRepository parentRepository;
 	
 	public InsertParentResponse createParent(InsertParentRequest insertParentRequest){
-		
-		Parent parent = new Parent();
+		System.out.println("in service");
+		Parent parent = constructParent(insertParentRequest);
 		parent = parentRepository.saveAndFlush(parent);
 		InsertParentResponse insertParentResponse = constructResponse(parent);
 		return insertParentResponse;
 	}
 
+	private Parent constructParent(InsertParentRequest insertParentRequest) { 
+		Parent parent = new Parent();
+		parent.setTitle(insertParentRequest.getTitle()); 
+		parent.setFirstName(insertParentRequest.getFirstName());
+		parent.setLastName(insertParentRequest.getLastName());
+		parent.setSecondName(insertParentRequest.getSecondName());
+		parent.setEmailAddress(insertParentRequest.getEmailAddress());
+		parent.setGender(insertParentRequest.getGender());
+		parent.setDateOfBirth(insertParentRequest.getDateOfBirth());
+//		parent.setChildern(insertParentRequest.getChildren());
+		return parent;
+	}
+
 	private InsertParentResponse constructResponse(Parent parent) { 
-		return null;
+		InsertParentResponse insertParentResponse = new InsertParentResponse();
+		insertParentResponse.setId(parent.getId().toString());
+		insertParentResponse.setTitle(parent.getTitle());
+		insertParentResponse.setFirstName(parent.getFirstName());
+		insertParentResponse.setLastName(parent.getLastName());
+		insertParentResponse.setSecondName(parent.getSecondName());
+		insertParentResponse.setEmailAddress(parent.getEmailAddress());
+		insertParentResponse.setGender(parent.getGender());
+		insertParentResponse.setDateOfBirth(parent.getDateOfBirth());
+//		insertParentResponse.setChildren(parent.getChildern());
+		
+		return insertParentResponse;
 	}
 }
