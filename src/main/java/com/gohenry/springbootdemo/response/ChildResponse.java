@@ -1,28 +1,22 @@
 package com.gohenry.springbootdemo.response;
 
-import java.util.List;
-
-import com.gohenry.springbootdemo.request.InsertChildRequest;
-
-public class InsertParentResponse {
+public class ChildResponse {
 
 	private String id;
 	
 	private String title;
-
+	
 	private String firstName;
-
+	
 	private String lastName;
-
+	
 	private String emailAddress;
-
+	
 	private String dateOfBirth;
-
+	
 	private String gender;
-
+	
 	private String secondName;
-
-	private List<InsertChildResponse> children;
 
 	public String getId() {
 		return id;
@@ -87,14 +81,5 @@ public class InsertParentResponse {
 	public void setSecondName(String secondName) {
 		this.secondName = secondName;
 	}
-
-	public List<InsertChildResponse> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<InsertChildResponse> children) {
-		this.children = children;
-	}
-	
 	
 }

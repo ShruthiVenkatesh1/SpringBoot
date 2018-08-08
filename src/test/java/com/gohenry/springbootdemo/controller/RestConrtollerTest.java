@@ -15,18 +15,18 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.gohenry.springbootdemo.request.InsertChildRequest;
 import com.gohenry.springbootdemo.request.InsertParentRequest;
-import com.gohenry.springbootdemo.response.InsertChildResponse;
-import com.gohenry.springbootdemo.response.InsertParentResponse;
+import com.gohenry.springbootdemo.response.ChildResponse;
+import com.gohenry.springbootdemo.response.ParentResponse;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class RestConrtollerTest {
 
 	@Autowired
 	private TestRestTemplate restTemplete;
 
 	@Test
-	public void testCreateParent() {
+	public void testCreateParentWithoutChild() {
 		InsertParentRequest request = new InsertParentRequest();
 		request.setFirstName("Shruthi");
 		request.setLastName("Venkatesh");
@@ -35,10 +35,10 @@ public class RestConrtollerTest {
 		request.setGender("Female");
 		request.setTitle("Mrs");
 		request.setSecondName("s");
-		ResponseEntity<InsertParentResponse> responseEntity = restTemplete.postForEntity("/parents", request,
-				InsertParentResponse.class);
+		ResponseEntity<ParentResponse> responseEntity = restTemplete.postForEntity("/parents", request,
+				ParentResponse.class);
 		assertNotNull(responseEntity);
-		InsertParentResponse insertParentResponse = responseEntity.getBody();
+		ParentResponse insertParentResponse = responseEntity.getBody();
 		assertEquals("Shruthi", insertParentResponse.getFirstName());
 		assertEquals("Venkatesh", insertParentResponse.getLastName());
 		assertEquals("s.v@gmail.com", insertParentResponse.getEmailAddress());
@@ -67,10 +67,10 @@ public class RestConrtollerTest {
 		childList.add(childRequest);
 		request.setChildren(childList);
 		request.setSecondName("s");
-		ResponseEntity<InsertParentResponse> responseEntity = restTemplete.postForEntity("/parents", request,
-				InsertParentResponse.class);
+		ResponseEntity<ParentResponse> responseEntity = restTemplete.postForEntity("/parents", request,
+				ParentResponse.class);
 		assertNotNull(responseEntity);
-		InsertParentResponse insertParentResponse = responseEntity.getBody();
+		ParentResponse insertParentResponse = responseEntity.getBody();
 		assertEquals("Shruthi", insertParentResponse.getFirstName());
 		assertEquals("Venkatesh", insertParentResponse.getLastName());
 		assertEquals("s.v@gmail.com", insertParentResponse.getEmailAddress());
@@ -78,10 +78,34 @@ public class RestConrtollerTest {
 		assertEquals("Female", insertParentResponse.getGender());
 		assertEquals("s", insertParentResponse.getSecondName());
 		assertEquals("Mrs", insertParentResponse.getTitle());
-		insertParentResponse.getChildren().forEach(child -> verifyChild(child)); 
+		insertParentResponse.getChildren().forEach(child -> verifyChild(child));
 	}
 
-	private Object verifyChild(InsertChildResponse child) {
+	@Test
+	public void testRetriveParent() {
+		InsertParentRequest request = new InsertParentRequest();
+		request.setFirstName("Shruthi");
+		request.setLastName("Venkatesh");
+		request.setEmailAddress("s.v@gmail.com");
+		request.setDateOfBirth("01-01-1999");
+		request.setGender("Female");
+		request.setTitle("Mrs");
+		request.setSecondName("s");
+		restTemplete.postForEntity("/parents", request, ParentResponse.class);
+
+		ResponseEntity<ParentResponse> responseEntity = restTemplete.getForEntity("/parents/{id}", ParentResponse.class,
+				"1");
+		assertNotNull(responseEntity);
+		ParentResponse insertParentResponse = responseEntity.getBody();
+		assertEquals("Shruthi", insertParentResponse.getFirstName());
+		assertEquals("Venkatesh", insertParentResponse.getLastName());
+		assertEquals("s.v@gmail.com", insertParentResponse.getEmailAddress());
+		assertEquals("01-01-1999", insertParentResponse.getDateOfBirth());
+		assertEquals("Female", insertParentResponse.getGender());
+		assertEquals("s", insertParentResponse.getSecondName());
+	}
+
+	private Object verifyChild(ChildResponse child) {
 		// TODO Auto-generated method stub
 		assertEquals("Shru", child.getFirstName());
 		assertEquals("V", child.getLastName());

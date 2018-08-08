@@ -10,8 +10,8 @@ import com.gohenry.springbootdemo.entity.Parent;
 import com.gohenry.springbootdemo.repository.ParentRepository;
 import com.gohenry.springbootdemo.request.InsertChildRequest;
 import com.gohenry.springbootdemo.request.InsertParentRequest;
-import com.gohenry.springbootdemo.response.InsertChildResponse;
-import com.gohenry.springbootdemo.response.InsertParentResponse;
+import com.gohenry.springbootdemo.response.ChildResponse;
+import com.gohenry.springbootdemo.response.ParentResponse;
 
 @Component
 public class ParentService {
@@ -19,14 +19,23 @@ public class ParentService {
 	@Autowired
 	private ParentRepository parentRepository;
 	
-	public InsertParentResponse createParent(InsertParentRequest insertParentRequest){
-		System.out.println("in service");
+	public ParentResponse createParent(InsertParentRequest insertParentRequest){
 		Parent parent = constructParent(insertParentRequest);
 		parent = parentRepository.save(parent);
-		InsertParentResponse insertParentResponse = constructResponse(parent);
+		ParentResponse insertParentResponse = constructResponse(parent);
 		return insertParentResponse;
 	}
 
+	public ParentResponse retrieveParent(String id){
+		ParentResponse parentResponse = new ParentResponse();
+		if(id!= null ){
+			
+			Parent parent = parentRepository.findOne(Long.valueOf(id));
+			parentResponse = constructResponse(parent);
+		}
+		return parentResponse;
+	}
+	
 	private Parent constructParent(InsertParentRequest insertParentRequest) { 
 		Parent parent = new Parent();
 		parent.setTitle(insertParentRequest.getTitle()); 
@@ -54,34 +63,34 @@ public class ParentService {
 		return child;
 	}
 
-	private InsertParentResponse constructResponse(Parent parent) { 
-		InsertParentResponse insertParentResponse = new InsertParentResponse();
-		insertParentResponse.setId(parent.getId().toString());
-		insertParentResponse.setTitle(parent.getTitle());
-		insertParentResponse.setFirstName(parent.getFirstName());
-		insertParentResponse.setLastName(parent.getLastName());
-		insertParentResponse.setSecondName(parent.getSecondName());
-		insertParentResponse.setEmailAddress(parent.getEmailAddress());
-		insertParentResponse.setGender(parent.getGender());
-		insertParentResponse.setDateOfBirth(parent.getDateOfBirth());
+	private ParentResponse constructResponse(Parent parent) { 
+		ParentResponse parentResponse = new ParentResponse();
+		parentResponse.setId(parent.getId().toString());
+		parentResponse.setTitle(parent.getTitle());
+		parentResponse.setFirstName(parent.getFirstName());
+		parentResponse.setLastName(parent.getLastName());
+		parentResponse.setSecondName(parent.getSecondName());
+		parentResponse.setEmailAddress(parent.getEmailAddress());
+		parentResponse.setGender(parent.getGender());
+		parentResponse.setDateOfBirth(parent.getDateOfBirth());
 		if(parent.getChildern() != null){
 			
-		insertParentResponse.setChildren(parent.getChildern().stream().map(child -> constructChildResponse(child)).collect(Collectors.toList()));
+		parentResponse.setChildren(parent.getChildern().stream().map(child -> constructChildResponse(child)).collect(Collectors.toList()));
 		}
 		
-		return insertParentResponse;
+		return parentResponse;
 	}
 
-	private InsertChildResponse constructChildResponse(Child child) { 
-		InsertChildResponse insertChildResponse = new InsertChildResponse();
-		insertChildResponse.setId(child.getId().toString()); 
-		insertChildResponse.setTitle(child.getTitle()); 
-		insertChildResponse.setFirstName(child.getFirstName());
-		insertChildResponse.setLastName(child.getLastName());
-		insertChildResponse.setSecondName(child.getSecondName());
-		insertChildResponse.setEmailAddress(child.getEmailAddress());
-		insertChildResponse.setGender(child.getGender());
-		insertChildResponse.setDateOfBirth(child.getDateOfBirth());
-		return insertChildResponse;
+	private ChildResponse constructChildResponse(Child child) { 
+		ChildResponse childResponse = new ChildResponse();
+		childResponse.setId(child.getId().toString()); 
+		childResponse.setTitle(child.getTitle()); 
+		childResponse.setFirstName(child.getFirstName());
+		childResponse.setLastName(child.getLastName());
+		childResponse.setSecondName(child.getSecondName());
+		childResponse.setEmailAddress(child.getEmailAddress());
+		childResponse.setGender(child.getGender());
+		childResponse.setDateOfBirth(child.getDateOfBirth());
+		return childResponse;
 	}
 }
